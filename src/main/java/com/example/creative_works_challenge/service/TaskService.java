@@ -38,4 +38,12 @@ public class TaskService {
                 .map(x -> modelMapper.map(x, TaskDto.class))
                 .collect(Collectors.toList());
     }
+
+    public TaskDto findByID(Long id) {
+        Task task = taskRepository.findById(id);
+        if (task == null) {
+            throw new IllegalArgumentException();
+        }
+        return modelMapper.map(task, TaskDto.class);
+    }
 }
