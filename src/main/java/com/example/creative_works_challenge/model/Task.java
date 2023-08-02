@@ -26,7 +26,7 @@ public class Task {
     private LocalDateTime dueDate;
 
     @Column(name = "resolved_at")
-    private LocalDateTime resolved_at;
+    private LocalDateTime resolvedAt;
 
     @Column(name = "priority")
     private Integer priority;
