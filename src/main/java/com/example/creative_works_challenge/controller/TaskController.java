@@ -42,4 +42,14 @@ public class TaskController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<TaskDto> deleteById(@PathVariable Long id){
+        try{
+            TaskDto task= taskService.deleteById(id);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 }

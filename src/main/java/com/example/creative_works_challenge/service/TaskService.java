@@ -46,4 +46,12 @@ public class TaskService {
         }
         return modelMapper.map(task, TaskDto.class);
     }
+
+    public TaskDto deleteById(Long id) {
+        List<Task> tasks = taskRepository.deleteById(id);
+        if (tasks.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        return modelMapper.map(tasks.get(0), TaskDto.class);
+    }
 }
