@@ -52,4 +52,15 @@ public class TaskController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TaskDto> updateByID(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+        try {
+            TaskDto task = taskService.updateByID(id, taskDto);
+            return new ResponseEntity<>(task, HttpStatus.CREATED);
+
+        }catch (IllegalArgumentException e){
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 }

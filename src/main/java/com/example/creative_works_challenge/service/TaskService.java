@@ -4,6 +4,7 @@ import com.example.creative_works_challenge.dto.TaskDto;
 import com.example.creative_works_challenge.model.Task;
 import com.example.creative_works_challenge.repository.TaskRepository;
 import jakarta.transaction.Transactional;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,14 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper updateMapper = new ModelMapper();
+
 
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+
+        updateMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+
     }
 
 
@@ -53,5 +59,19 @@ public class TaskService {
             throw new IllegalArgumentException();
         }
         return modelMapper.map(tasks.get(0), TaskDto.class);
+    }
+
+    public TaskDto updateByID(Long id, TaskDto taskDto) {
+        Task task = taskRepository.findById(id);
+
+        if (task == null) {
+            throw new IllegalArgumentException();
+        }
+
+        taskDto.setId(null);
+
+        updateMapper.map(taskDto, task);
+        task = taskRepository.save(task);
+        return modelMapper.map(task, TaskDto.class);
     }
 }
