@@ -61,6 +61,12 @@ public class TaskService {
         return modelMapper.map(tasks.get(0), TaskDto.class);
     }
 
+    public TaskDto create(TaskDto taskDto) {
+        Task task = modelMapper.map(taskDto, Task.class);
+        task = taskRepository.save(task);
+        return modelMapper.map(task, TaskDto.class);
+    }
+
     public TaskDto updateByID(Long id, TaskDto taskDto) {
         Task task = taskRepository.findById(id);
 

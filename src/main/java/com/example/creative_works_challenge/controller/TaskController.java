@@ -53,6 +53,13 @@ public class TaskController {
         }
     }
 
+    @PostMapping()
+    public ResponseEntity<TaskDto> create(@RequestBody TaskDto taskDto) {
+
+        TaskDto task = taskService.create(taskDto);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
+    }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<TaskDto> updateByID(@PathVariable Long id, @RequestBody TaskDto taskDto) {
         try {
