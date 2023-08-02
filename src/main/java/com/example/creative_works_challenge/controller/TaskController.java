@@ -1,5 +1,6 @@
 package com.example.creative_works_challenge.controller;
 
+import com.example.creative_works_challenge.dto.TaskDto;
 import com.example.creative_works_challenge.model.Task;
 import com.example.creative_works_challenge.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class TaskController {
     TaskService taskService;
 
     @GetMapping()
-    public ResponseEntity<List<Task>> getAllTasks() {
+    public ResponseEntity<List<TaskDto>> getAllTasks() {
         try {
-            List<Task> tasks = taskService.findAll();
+            List<TaskDto> tasks = taskService.findAll();
 
             if (tasks.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

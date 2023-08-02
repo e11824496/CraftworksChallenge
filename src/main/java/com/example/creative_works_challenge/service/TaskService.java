@@ -1,18 +1,23 @@
 package com.example.creative_works_challenge.service;
 
+import com.example.creative_works_challenge.dto.TaskDto;
 import com.example.creative_works_challenge.model.Task;
 import com.example.creative_works_challenge.repository.TaskRepository;
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class TaskService {
 
     private final TaskRepository taskRepository;
+
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
@@ -28,7 +33,9 @@ public class TaskService {
         taskRepository.save(t);
     }
 
-    public List<Task> findAll() {
-        return taskRepository.findAllByOrderByCreatedAtDesc();
+    public List<TaskDto> findAll() {
+        return taskRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(x -> modelMapper.map(x, TaskDto.class))
+                .collect(Collectors.toList());
     }
 }
